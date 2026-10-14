@@ -13,7 +13,10 @@ from sklearn.preprocessing import StandardScaler
 warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
 
-DATASET_PATH = Path(__file__).resolve().parent / "data" / "student-mat.csv"
+DATASET_URL = (
+    "https://raw.githubusercontent.com/Yosias1706/"
+    "student-performance-neural-network/refs/heads/main/data/student-mat.csv"
+)
 PLOTS_DIR = Path(__file__).resolve().parent / "plots"
 RESULTS_DIR = Path(__file__).resolve().parent / "results"
 
@@ -208,7 +211,7 @@ class NeuralNet:
 
 
 if __name__ == "__main__":
-    neural_network = NeuralNet(str(DATASET_PATH))
+    neural_network = NeuralNet(DATASET_URL)
     neural_network.preprocess()
     summary_df, history_df, activation_summary = neural_network.train_evaluate()
 

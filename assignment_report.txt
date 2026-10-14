@@ -1,0 +1,52 @@
+This project compares neural networks for predicting whether a student passes
+the Math course. A final grade (G3) of 10 or higher is labeled as a pass; a
+grade below 10 is labeled as a fail. The Math course dataset contains 395
+students. The data was split into training and test sets, using 80% for
+training and 20% for testing.
+
+Model summary
+Each row represents a model evaluated after its specified number of epochs.
+All models used 32 neurons in each hidden layer.
+
+The table below is tab-separated. For a formatted table in Google Docs, paste
+the block into Google Sheets first, then copy the cells into the document.
+
+Activation	Learning rate	Epochs	Hidden layers	Train accuracy	Test accuracy	Train loss	Test loss
+Sigmoid	0.01	100	2	1.0000	0.8481	0.0002	1.2229
+Sigmoid	0.01	100	3	1.0000	0.8734	0.0003	1.1983
+Sigmoid	0.01	200	2	1.0000	0.8608	0.0001	1.4075
+Sigmoid	0.01	200	3	1.0000	0.8734	0.0001	1.4048
+Sigmoid	0.10	100	2	1.0000	0.8354	0.1503	1.4580
+Sigmoid	0.10	100	3	0.8861	0.7089	0.2138	2.6724
+Sigmoid	0.10	200	2	0.9968	0.7722	0.0132	1.7082
+Sigmoid	0.10	200	3	0.9968	0.8987	0.1307	1.2533
+Tanh	0.01	100	2	0.9968	0.8608	0.0576	1.8915
+Tanh	0.01	100	3	1.0000	0.8608	0.0016	2.0508
+Tanh	0.01	200	2	1.0000	0.8354	0.0021	2.3201
+Tanh	0.01	200	3	0.9968	0.8354	0.0019	1.6511
+Tanh	0.10	100	2	1.0000	0.8481	0.0753	0.9688
+Tanh	0.10	100	3	0.9968	0.7975	0.0014	1.9008
+Tanh	0.10	200	2	1.0000	0.8481	0.0010	1.5634
+Tanh	0.10	200	3	0.9873	0.8608	0.0241	0.9389
+ReLU	0.01	100	2	1.0000	0.8228	0.0000	1.6100
+ReLU	0.01	100	3	0.9937	0.8354	0.0892	2.3033
+ReLU	0.01	200	2	1.0000	0.7975	0.0000	2.1809
+ReLU	0.01	200	3	0.9968	0.8228	0.0055	1.9354
+ReLU	0.10	100	2	1.0000	0.7975	0.1782	3.1312
+ReLU	0.10	100	3	0.9778	0.8101	0.2236	3.0166
+ReLU	0.10	200	2	0.9842	0.8228	0.1006	3.1833
+ReLU	0.10	200	3	0.9905	0.7975	0.0002	3.2681
+
+Results
+Across the eight settings tested for each activation function, tanh had the
+highest average test accuracy (84.3%). Sigmoid averaged 83.4%, while ReLU
+averaged 81.3%. The best individual run was sigmoid with a learning rate of
+0.10, 200 epochs, and 3 hidden layers; its test accuracy was 89.9%. Using 
+average test accuracy as the main measure, although tanh did not win on 
+every metric; it was the most consistent choice by average test accuracy 
+across the settings we tested so it performed best.
+
+Limitations
+Most models reached nearly 100% training accuracy, but their test accuracy was
+lower. This suggests overfitting: the models fit the training data better than
+they generalize to unseen students. 
