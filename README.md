@@ -7,6 +7,10 @@ This project looks at the UCI Student Performance dataset and compares several n
 The project uses the Math course file from the UCI Student Performance dataset:
 - `data/student-mat.csv`
 
+Only the Math CSV is needed to run this project. The other files originally in
+the dataset archive included the Portuguese-course data, an R helper script,
+and archive/metadata files; this project does not use them. R is not required.
+
 The target is a pass/fail label based on the final grade (`G3`):
 - pass = 1 if `G3 >= 10`
 - fail = 0 otherwise
@@ -19,7 +23,7 @@ The target is a pass/fail label based on the final grade (`G3`):
 - trains multiple neural networks using different settings
 - records training/test accuracy and loss
 - saves a summary table
-- plots model history for all combinations
+- plots model history in separate panels for each activation function
 
 The starter template was followed, but the code was expanded to include a clean preprocessing step, model comparison, and output files.
 
@@ -28,7 +32,7 @@ The starter template was followed, but the code was expanded to include a clean 
 - `student_performance_neural_network.py` - training and evaluation code
 - `results/model_summary.csv` - table with all model results
 - `results/model_history.csv` - accuracy and loss tracked across epochs
-- `plots/model_history.png` - model history chart
+- `plots/model_history.png` - test-accuracy history, split into one panel per activation
 
 ## How to run
 

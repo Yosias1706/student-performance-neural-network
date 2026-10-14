@@ -101,6 +101,7 @@ class NeuralNet:
                     {
                         "activation": activation_name,
                         "learning_rate": learning_rate,
+                        "max_iterations": epochs,
                         "epochs": epoch,
                         "hidden_layers": hidden_layers,
                         "train_accuracy": train_acc,
@@ -155,29 +156,55 @@ class NeuralNet:
         return summary_df, history_df, activation_summary
 
     def _plot_history(self, history_df):
-        plt.figure(figsize=(15, 9))
-        for activation in ["sigmoid", "tanh", "relu"]:
-            for learning_rate in [0.01, 0.1]:
-                for hidden_layers in [2, 3]:
-                    subset = history_df[
-                        (history_df["activation"] == activation)
-                        & (history_df["learning_rate"] == learning_rate)
-                        & (history_df["hidden_layers"] == hidden_layers)
-                    ]
-                    if subset.empty:
-                        continue
-                    label = (
-                        f"{activation} | lr={learning_rate} | layers={hidden_layers}"
-                    )
-                    plt.plot(subset["epochs"], subset["test_accuracy"], label=label)
+        longest_runs = history_df[
+            history_df["max_iterations"] == history_df["max_iterations"].max()
+        ]
 
-        plt.title("Neural network accuracy over training epochs")
-        plt.xlabel("Epoch")
-        plt.ylabel("Test Accuracy")
-        plt.legend(loc="best", fontsize=8)
-        plt.tight_layout()
-        plt.savefig(PLOTS_DIR / "model_history.png", dpi=200)
-        plt.close()
+        colors = {
+            (0.01, 2): "#2563eb",
+            (0.01, 3): "#16a34a",
+            (0.1, 2): "#ea580c",
+            (0.1, 3): "#9333ea",
+        }
+        fig, axes = plt.subplots(1, 3, figsize=(14, 4.8), sharey=True)
+
+        for axis, activation in zip(axes, ["sigmoid", "tanh", "relu"]):
+            activation_runs = longest_runs[longest_runs["activation"] == activation]
+            for (learning_rate, hidden_layers), run in activation_runs.groupby(
+                ["learning_rate", "hidden_layers"], sort=True
+            ):
+                axis.plot(
+                    run["epochs"],
+                    run["test_accuracy"],
+                    color=colors[(learning_rate, hidden_layers)],
+                    linewidth=1.8,
+                    label=f"lr={learning_rate}, {hidden_layers} layers",
+                )
+
+            axis.set_title(activation.capitalize())
+            axis.set_xlabel("Epoch")
+            axis.set_xlim(1, 200)
+            axis.set_ylim(0, 1)
+            axis.grid(True, alpha=0.25)
+
+        axes[0].set_ylabel("Test accuracy")
+        handles, labels = axes[0].get_legend_handles_labels()
+        fig.legend(
+            handles,
+            labels,
+            loc="lower center",
+            ncol=4,
+            frameon=False,
+            bbox_to_anchor=(0.5, -0.02),
+        )
+        fig.suptitle("Test accuracy during training by activation function", y=1.02)
+        fig.tight_layout()
+        fig.savefig(
+            PLOTS_DIR / "model_history.png",
+            dpi=200,
+            bbox_inches="tight",
+        )
+        plt.close(fig)
 
 
 if __name__ == "__main__":
