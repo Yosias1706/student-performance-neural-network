@@ -7,10 +7,6 @@ This project looks at the UCI Student Performance dataset and compares several n
 The project uses the Math course file from the UCI Student Performance dataset:
 - `data/student-mat.csv`
 
-Only the Math CSV is needed to run this project. The other files originally in
-the dataset archive included the Portuguese-course data, an R helper script,
-and archive/metadata files; this project does not use them. R is not required.
-
 The target is a pass/fail label based on the final grade (`G3`):
 - pass = 1 if `G3 >= 10`
 - fail = 0 otherwise
@@ -53,6 +49,4 @@ The average test accuracy across the tested settings was:
 - sigmoid: 0.834
 - relu: 0.813
 
-So the best overall performer in this setup was `tanh`. The strongest single run was a sigmoid network with `lr=0.10`, `200` epochs, and `3` hidden layers, which reached about `89.9%` test accuracy. Scikit-learn calls the sigmoid activation `logistic`, so the code uses that library-specific name internally while the report and result tables call it sigmoid.
-
-The results are saved in `results/model_summary.csv` and `results/activation_summary.csv`.
+So the best overall performer in this setup was `tanh`. The strongest single run was a sigmoid network with `lr=0.10`, `200` epochs, and `3` hidden layers, which reached about `89.9%` test accuracy. 
