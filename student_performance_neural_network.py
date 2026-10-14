@@ -55,7 +55,11 @@ class NeuralNet:
         X_train_scaled = scaler.fit_transform(X_train)
         X_test_scaled = scaler.transform(X_test)
 
-        activations = ["logistic", "tanh", "relu"]
+        activation_options = [
+            ("sigmoid", "logistic"),
+            ("tanh", "tanh"),
+            ("relu", "relu"),
+        ]
         learning_rates = [0.01, 0.1]
         max_iterations = [100, 200]
         num_hidden_layers = [2, 3]
@@ -66,15 +70,15 @@ class NeuralNet:
         PLOTS_DIR.mkdir(exist_ok=True)
         RESULTS_DIR.mkdir(exist_ok=True)
 
-        for activation, learning_rate, epochs, hidden_layers in itertools.product(
-            activations, learning_rates, max_iterations, num_hidden_layers
+        for (activation_name, sklearn_activation), learning_rate, epochs, hidden_layers in itertools.product(
+            activation_options, learning_rates, max_iterations, num_hidden_layers
         ):
             hidden_size = 32
             layer_tuple = (hidden_size,) * hidden_layers
 
             model = MLPClassifier(
                 hidden_layer_sizes=layer_tuple,
-                activation=activation,
+                activation=sklearn_activation,
                 learning_rate_init=learning_rate,
                 max_iter=1,
                 warm_start=True,
@@ -95,7 +99,7 @@ class NeuralNet:
 
                 epoch_history.append(
                     {
-                        "activation": activation,
+                        "activation": activation_name,
                         "learning_rate": learning_rate,
                         "epochs": epoch,
                         "hidden_layers": hidden_layers,
@@ -110,7 +114,7 @@ class NeuralNet:
             final_test_pred = model.predict(X_test_scaled)
 
             summary_row = {
-                "activation": activation,
+                "activation": activation_name,
                 "learning_rate": learning_rate,
                 "max_iterations": epochs,
                 "num_hidden_layers": hidden_layers,
@@ -152,7 +156,7 @@ class NeuralNet:
 
     def _plot_history(self, history_df):
         plt.figure(figsize=(15, 9))
-        for activation in ["logistic", "tanh", "relu"]:
+        for activation in ["sigmoid", "tanh", "relu"]:
             for learning_rate in [0.01, 0.1]:
                 for hidden_layers in [2, 3]:
                     subset = history_df[

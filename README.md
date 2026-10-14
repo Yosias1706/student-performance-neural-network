@@ -40,19 +40,15 @@ python student_performance_neural_network.py
 ## Activation function summary
 
 The script compares these activation functions:
-- logistic
+- sigmoid
 - tanh
 - relu
 
 The average test accuracy across the tested settings was:
 - tanh: 0.843
-- logistic: 0.834
+- sigmoid: 0.834
 - relu: 0.813
 
-So the best overall performer in this setup was `tanh`. The strongest single run was a logistic network with `lr=0.10`, `200` epochs, and `3` hidden layers, which reached about `89.9%` test accuracy.
+So the best overall performer in this setup was `tanh`. The strongest single run was a sigmoid network with `lr=0.10`, `200` epochs, and `3` hidden layers, which reached about `89.9%` test accuracy. Scikit-learn calls the sigmoid activation `logistic`, so the code uses that library-specific name internally while the report and result tables call it sigmoid.
 
 The results are saved in `results/model_summary.csv` and `results/activation_summary.csv`.
-
-## Notes
-
-This is a simple comparison project for a class assignment. The goal is to compare model behavior for different hyperparameter combinations rather than to build a production model.
